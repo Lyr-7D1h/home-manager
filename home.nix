@@ -178,7 +178,6 @@
       # alt + delete remove word
       bindkey '^[[3;5~' kill-word
 
-
       # Enable reverse search
       bindkey '^R' history-incremental-search-backward
 
@@ -189,7 +188,6 @@
       bindkey  "^[[H"   beginning-of-line
       bindkey  "^[[F"   end-of-line
       bindkey  "^[[3~"  delete-char
-
 
       # Needed for obs on wayland
       export QT_QPA_PLATFORM=wayland
