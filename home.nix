@@ -70,25 +70,27 @@
     '';
   };
 
-  systemd.user.timers = {
-    daily-paper = {
-      Unit = {
-        Description = "Set your daily wallpaper";
-      };
-      Timer = {
-        Unit = "daily-paper";
-        OnCalendar = "daily";
-        Persistent = true; 
-      };
-      Install = {
-        WantedBy = [ "timers.target" ];
-      };
-    };
-  };
+  # systemd.user.timers = {
+  #   daily-paper = {
+  #     Unit = {
+  #       Description = "Set your daily wallpaper";
+  #     };
+  #     Timer = {
+  #       Unit = "daily-paper";
+  #       OnCalendar = "daily";
+  #       Persistent = true; 
+  #     };
+  #     Install = {
+  #       WantedBy = [ "timers.target" ];
+  #     };
+  #   };
+  # };
   systemd.user.services = {
     daily-paper = {
       Unit = {
-        Description = "Set your daily wallpaper";
+        Description = "setting your daily wallpaper";
+        After="network-online.target";
+        Wants="network-online.target";
       };
 
       Service = {
@@ -125,6 +127,14 @@
     '';
   };
 
+  programs.ssh = {
+    enable = true;
+    extraConfig = ''
+      Host home.lyrx.dev
+        ProxyCommand /home/lyr/bin/cloudflared access ssh --hostname %h
+    '';
+  };
+
   programs.zsh = {
     enable = true;
     enableAutosuggestions = true;
@@ -154,11 +164,20 @@
       # ctrl + space to accept suggestions
       bindkey '^ ' autosuggest-accept
 
-      autoload -U select-word-style
+      autoload -Uz select-word-style
       select-word-style bash
 
-      # normal alt backspace for removing words
-      bindkey '^[^?' backward-kill-word
+      x-backward-kill-word(){
+        WORDCHARS='*?_-[]~\!#$%^(){}<>|`@#$%^*()+:?' zle backward-kill-word
+      }
+      zle -N x-backward-kill-word
+
+      # alt + backspace 
+      bindkey '^[^?' x-backward-kill-word
+
+      # alt + delete remove word
+      bindkey '^[[3;5~' kill-word
+
 
       # Enable reverse search
       bindkey '^R' history-incremental-search-backward
@@ -171,8 +190,6 @@
       bindkey  "^[[F"   end-of-line
       bindkey  "^[[3~"  delete-char
 
-      # alt + delete remove word
-      bindkey '^[[3;5~' kill-word
 
       # Needed for obs on wayland
       export QT_QPA_PLATFORM=wayland
@@ -196,6 +213,9 @@
         fi
       }
 
+
+      # Keep same directory in gnome-terminal
+      . /etc/profile.d/vte.sh
 
       # Adding custom executables
       export PATH="$PATH:$HOME/.npm/bin"
