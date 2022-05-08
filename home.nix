@@ -123,7 +123,7 @@
     enable = true;
     extraConfig = ''
       Host home.lyrx.dev
-        ProxyCommand /home/lyr/bin/cloudflared access ssh --hostname %h
+        ProxyCommand /usr/bin/cloudflared access ssh --hostname %h
 
       # TECHINC
       Host inc_mpd
