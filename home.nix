@@ -1,22 +1,14 @@
 { config, pkgs, ... }:
-#  nixpkgs.overlays = [
-#    (import (builtins.fetchTarball {
-#      url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
-#    }))
-#  ];
 {
   home.username = "lyr";
   home.homeDirectory = "/home/lyr";
 
-  # xdg.cacheHome = "/home/lyr/snap/alacritty/common/.cache";
-
   nixpkgs.config.allowUnfree = true;
   nixpkgs.overlays = [
+    # Import neovim nightly
     (import (builtins.fetchTarball {
       url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
     }))
-    # (import ../overlays/firefox-dev.nix)
-    # (import ../overlays/torbrowser.nix)
   ];
 
 
@@ -132,6 +124,11 @@
     extraConfig = ''
       Host home.lyrx.dev
         ProxyCommand /home/lyr/bin/cloudflared access ssh --hostname %h
+
+      # TECHINC
+      Host inc_mpd
+          User techinc 
+          Hostname 10.209.10.3
     '';
   };
 
