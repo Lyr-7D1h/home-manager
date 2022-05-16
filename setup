@@ -4,12 +4,13 @@ set -e
 
 REPOSITORY="git@github.com:Lyr-7D1h/home-manager.git"
 
-if cat /proc/release | grep -i archlinux &>/dev/null; then
+if cat /proc/version | grep -i archlinux &>/dev/null; then
 
-	echo "Installing for archlinux"
-	
-	sudo pacman -S nix
-	sudo sytemctl --user enable --now nix-daemon
+	echo "Installing packages for archlinux"
+	sudo pacman -S nix git
+
+	echo "Setting up nix"
+	sudo systemctl --user enable --now nix-daemon
 	sudo usermod -aG nix-users $USER
 	nix-channel --add https://nixos.org/channels/nixpkgs-unstable
 	nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
@@ -18,11 +19,13 @@ if cat /proc/release | grep -i archlinux &>/dev/null; then
 	nix-shell '<home-manager>' -A install
 	. "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
 	
+	echo "Setting up configuration"
 	mkdir -f ~/.config
 	rm -rf ~/.config/nixpkgs
 	git clone $REPOSITORY ~/.config/nixpkgs 
 	ln -s ~/.config/nixpkgs/bin ~/bin
 
+	echo "Updating"
 	home-manager switch
 
 fi
