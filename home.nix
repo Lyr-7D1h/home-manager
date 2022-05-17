@@ -212,15 +212,15 @@
       # Keep same directory in gnome-terminal
       . /etc/profile.d/vte.sh
 
-      # Initialize asdf if it exists
-      if [[ -f /opt/asdf-vm/asdf.sh ]]; then
-        . /opt/asdf-vm/asdf.sh
-      fi
-
       # Adding custom executables
       export PATH="$PATH:$HOME/.npm/bin"
       export PATH="$HOME/bin:$PATH"
       export PATH="$HOME/.local/bin:$PATH"
+
+      # Initialize asdf if it exists
+      if [[ -f /opt/asdf-vm/asdf.sh ]]; then
+        . /opt/asdf-vm/asdf.sh
+      fi
     '';
     zplug = {
       enable = true;
