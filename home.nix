@@ -103,19 +103,26 @@
     clock24 = true;
     keyMode = "vi";
     terminal = "screen-256color";
+    sensibleOnTop = true;
     extraConfig = ''
+      # Wayland support
       set -s copy-command 'wl-copy'
 
       # Allow scrolling with mouse
       set -g mouse on
+
       # Vim keybindings in copy-mode
       set-window-option -g mode-keys vi
 
+      # Split s for horizontal v for vertical
+      bind-key v split-window -h
+      bind-key s split-window -v
+
       # Vi bindings for moving between planes
-      bind h select-pane -L
-      bind j select-pane -D
-      bind k select-pane -U
-      bind l select-pane -R
+      bind-key h select-pane -L
+      bind-key j select-pane -D
+      bind-key k select-pane -U
+      bind-key l select-pane -R
     '';
   };
 
