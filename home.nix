@@ -16,9 +16,14 @@
     nixpkgs-fmt
   ];
 
+  # Custom config files
+  home.file.".tmux.conf".source = ./tmux.conf;
+  home.file.".config/alacritty/alacritty.yml".source = ./alacritty.yml;
+
   services.gpg-agent.enable = true;
 
   programs.go.enable = true;
+
   programs.git = {
     enable = true;
     userName = "lyr";
@@ -98,33 +103,33 @@
   # Automatically start services
   systemd.user.startServices = "sd-switch";
 
-  programs.tmux = {
-    enable = true;
-    clock24 = true;
-    keyMode = "vi";
-    terminal = "screen-256color";
-    sensibleOnTop = true;
-    extraConfig = ''
-      # Wayland support
-      set -s copy-command 'wl-copy'
+  # programs.tmux = {
+  #   enable = true;
+  #   clock24 = true;
+  #   keyMode = "vi";
+  #   terminal = "screen-256color";
+  #   sensibleOnTop = true;
+  #   extraConfig = ''
+  #     # Wayland support
+  #     set -s copy-command 'wl-copy'
 
-      # Allow scrolling with mouse
-      set -g mouse on
+  #     # Allow scrolling with mouse
+  #     set -g mouse on
 
-      # Vim keybindings in copy-mode
-      set-window-option -g mode-keys vi
+  #     # Vim keybindings in copy-mode
+  #     set-window-option -g mode-keys vi
 
-      # Split s for horizontal v for vertical
-      bind-key v split-window -h
-      bind-key s split-window -v
+  #     # Split s for horizontal v for vertical
+  #     bind-key v split-window -h
+  #     bind-key s split-window -v
 
-      # Vi bindings for moving between planes
-      bind-key h select-pane -L
-      bind-key j select-pane -D
-      bind-key k select-pane -U
-      bind-key l select-pane -R
-    '';
-  };
+  #     # Vi bindings for moving between planes
+  #     bind-key h select-pane -L
+  #     bind-key j select-pane -D
+  #     bind-key k select-pane -U
+  #     bind-key l select-pane -R
+  #   '';
+  # };
 
   programs.ssh = {
     enable = true;
