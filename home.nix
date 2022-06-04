@@ -222,7 +222,9 @@
 
 
       # Keep same directory in gnome-terminal
-      . /etc/profile.d/vte.sh
+      if [[ "$GNOME_TERMINAL_SCREEN" != "" ]]; then
+        . /etc/profile.d/vte.sh
+      fi
 
       # Adding custom executables
       export PATH="$PATH:$HOME/.npm/bin"
