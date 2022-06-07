@@ -17,8 +17,9 @@
   ];
 
   # Custom config files
-  home.file.".tmux.conf".source = ./tmux.conf;
-  home.file.".config/alacritty/alacritty.yml".source = ./alacritty.yml;
+  # home.file.".tmux.conf".source = ./tmux.conf;
+  # home.file.".config/alacritty/alacritty.yml".source = ./alacritty.yml;
+  # home.file.".config/nvim/init.vim".source = ./init.vim;
 
   services.gpg-agent.enable = true;
 
@@ -34,38 +35,38 @@
     };
   };
 
-  programs.neovim = {
-    enable = true;
-    package = pkgs.neovim-nightly;
-    vimAlias = true;
-    viAlias = true;
-    plugins = with pkgs.vimPlugins; [
-      vim-nix
-      vim-commentary
-      vim-toml
-      auto-pairs
-      nvim-cm-racer
-    ];
-    extraConfig = ''
-      set number
-      set tabstop=4
-      set shiftwidth=4
-      set clipboard+=unnamedplus
+  # programs.neovim = {
+  #   enable = true;
+  #   package = pkgs.neovim-nightly;
+  #   vimAlias = true;
+  #   viAlias = true;
+  #   plugins = with pkgs.vimPlugins; [
+  #     vim-nix
+  #     vim-commentary
+  #     vim-toml
+  #     auto-pairs
+  #     nvim-cm-racer
+  #   ];
+  #   extraConfig = ''
+  #     set number
+  #     set tabstop=4
+  #     set shiftwidth=4
+  #     set clipboard+=unnamedplus
 
-      let mapleader=";"
+  #     let mapleader=";"
 
-      " Always use original yank when pasting
-      noremap <Leader>p "0p
-      noremap <Leader>P "0P
-      vnoremap <Leader>p "0p
+  #     " Always use original yank when pasting
+  #     noremap <Leader>p "0p
+  #     noremap <Leader>P "0P
+  #     vnoremap <Leader>p "0p
 
-      " Easier Split Navigation
-      nnoremap <C-j> <C-W><C-J>
-      nnoremap <C-k> <C-W><C-K>
-      nnoremap <C-l> <C-W><C-L>
-      nnoremap <C-h> <C-W><C-H>
-    '';
-  };
+  #     " Easier Split Navigation
+  #     nnoremap <C-j> <C-W><C-J>
+  #     nnoremap <C-k> <C-W><C-K>
+  #     nnoremap <C-l> <C-W><C-L>
+  #     nnoremap <C-h> <C-W><C-H>
+  #   '';
+  # };
 
   # systemd.user.timers = {
   #   daily-paper = {
@@ -103,34 +104,6 @@
   # Automatically start services
   systemd.user.startServices = "sd-switch";
 
-  # programs.tmux = {
-  #   enable = true;
-  #   clock24 = true;
-  #   keyMode = "vi";
-  #   terminal = "screen-256color";
-  #   sensibleOnTop = true;
-  #   extraConfig = ''
-  #     # Wayland support
-  #     set -s copy-command 'wl-copy'
-
-  #     # Allow scrolling with mouse
-  #     set -g mouse on
-
-  #     # Vim keybindings in copy-mode
-  #     set-window-option -g mode-keys vi
-
-  #     # Split s for horizontal v for vertical
-  #     bind-key v split-window -h
-  #     bind-key s split-window -v
-
-  #     # Vi bindings for moving between planes
-  #     bind-key h select-pane -L
-  #     bind-key j select-pane -D
-  #     bind-key k select-pane -U
-  #     bind-key l select-pane -R
-  #   '';
-  # };
-
   programs.ssh = {
     enable = true;
     extraConfig = ''
@@ -157,6 +130,7 @@
       tf = "terraform";
       configure = "vim ~/.config/nixpkgs/home.nix";
       ls = "ls --color=auto";
+      vim = "nvim";
     };
     initExtra = ''
       source ~/.p10k.zsh
